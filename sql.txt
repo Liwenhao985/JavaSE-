@@ -1,0 +1,77 @@
+create database douyin;
+
+use douyin;
+
+create table user(
+    id int primary key auto_increment,
+    name varchar(50) not null ,
+    gender char(4) not null ,
+    birthday date not null ,
+    phone char(11) unique not null,
+    password varchar(20) not null ,
+    headPicture varchar(255) not null ,
+    isShow char(3) not null ,
+    introduction varchar(255)
+)comment '用户表';
+
+create table vedio(
+    id int primary key auto_increment,
+    userid int not null,
+    path varchar(255) not null ,
+    name varchar(50) not null ,
+    tagid int not null ,
+    isShow varchar(3) not null,
+    isLegal varchar(3) ,
+    cause varchar(255),
+    introduction varchar(255)
+)comment '视频表';
+
+create table behavior(
+    id int primary key auto_increment,
+    userid int not null,
+    vedioid int not null ,
+    type char(4) not null ,
+    time datetime not null comment '行为时间',
+    duration int comment '观看时长'
+)comment '行为表';
+
+create table tag(
+    id int primary key auto_increment,
+    name varchar(50) not null
+)comment '标签表';
+
+create table user_tag_relation(
+    userid int not null ,
+    tagid int not null,
+    weight int not null
+)comment '用户标签关系表';
+
+create table follow_relation(
+    id int primary key auto_increment comment '关注id',
+    userid int not null comment '关注者id',
+    followid int not null comment '被关注者id',
+    two_way char(3) default 'no' comment '是否双向关注'
+)comment '关注关系表';
+
+create table comment(
+    id int primary key auto_increment,
+    userid int not null ,
+    vedioid int not null ,
+    parentid int,
+    content varchar(255) not null ,
+    time datetime not null
+)comment '评论表';
+
+create table hot(
+    id int primary key auto_increment,
+    likes int default 0 not null ,
+    collection int default 0 not null ,
+    frequency int default 0 not null
+)comment '热度表';
+
+create table memory_autologin(
+    id int not null default 1,
+    phone char(11) not null,
+    password varchar(20) not null ,
+    auto int default 0
+)comment '记住密码和自动登录';
